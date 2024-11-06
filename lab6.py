@@ -3,19 +3,18 @@ import numpy as np
 from numpy import matrix
 from math import cos, sin, pi
 
-
 pygame.init()
 
-text_colour = (186, 156, 243)
-white = (225, 227, 228)
-colour = (234, 203, 100)
-colour2 = (114, 204, 232)
-bg_colour = (42, 47, 56)
+text_color = (184, 187, 38)
+white = (235, 219, 178)
+color = (204, 36, 20)
+color2 = (69, 133, 136)
+bg_color = (40, 40, 40)
 
-font_object = pygame.font.SysFont("Iosevka Nerd Font", 30)
+font_object = pygame.font.SysFont("Iosevka Nerd Font", 40, bold=True)
 display_text = ["", "Cohen-Sutherland 3D", "Cyrus-Beck 3D", "Liang-Barsky 3D"]
 
-text = font_object.render(display_text[0], False, text_colour)
+text = font_object.render(display_text[0], False, text_color)
 screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -93,7 +92,7 @@ def draw_the_cube(rotation = rotation):
 
 
 def reset_screen() :
-    screen.fill(bg_colour)
+    screen.fill(bg_color)
     draw_the_cube()
 
 
@@ -263,10 +262,10 @@ while running:
                 x1, y1, z1 = -20, 60, 100
                 x2, y2, z2 = 300, 250, 250
                 full_line_2D_1, full_line_2D_2 = to_2d([x1, y1, z1]), to_2d([x2, y2, z2])
-                pygame.draw.line(screen, colour, full_line_2D_1, full_line_2D_2)
+                pygame.draw.line(screen, color, full_line_2D_1, full_line_2D_2)
                 clipped_line_3D_1, clipped_line_3D_2 = cohen_sutherland_clip_3d(x1, y1, z1, x2, y2, z2, xmin, xmax, ymin, ymax, zmin, zmax)
                 clipped_line_2D_1, clipped_line_2D_2 = to_2d(clipped_line_3D_1), to_2d(clipped_line_3D_2)
-                pygame.draw.line(screen, colour2, clipped_line_2D_1, clipped_line_2D_2)
+                pygame.draw.line(screen, color2, clipped_line_2D_1, clipped_line_2D_2)
 
             elif event.key == pygame.K_2:
                 method_type = 2
@@ -282,10 +281,10 @@ while running:
                 p1 = np.array([-200, 100, 100])
                 p2 = np.array([300, 100, 100])
                 full_line_2D_1, full_line_2D_2 = to_2d([p1[0], p1[1], p1[2]]), to_2d([p2[0], p2[1], p2[2]])
-                pygame.draw.line(screen, colour, full_line_2D_1, full_line_2D_2)
+                pygame.draw.line(screen, color, full_line_2D_1, full_line_2D_2)
                 clipped_line_3D_1, clipped_line_3D_2 = cyrus_beck_clip_3d(p1, p2, polyhedron_faces)
                 clipped_line_2D_1, clipped_line_2D_2 = to_2d(clipped_line_3D_1), to_2d(clipped_line_3D_2)
-                pygame.draw.line(screen, colour2, clipped_line_2D_1, clipped_line_2D_2)
+                pygame.draw.line(screen, color2, clipped_line_2D_1, clipped_line_2D_2)
 
             elif event.key == pygame.K_3:
                 method_type = 3
@@ -296,11 +295,11 @@ while running:
                 x1, y1, z1 = -20, 60, 100
                 x2, y2, z2 = 300, 250, 250
                 full_line_2D_1, full_line_2D_2 = to_2d([x1, y1, z1]), to_2d([x2, y2, z2])
-                pygame.draw.line(screen, colour, full_line_2D_1, full_line_2D_2)
+                pygame.draw.line(screen, color, full_line_2D_1, full_line_2D_2)
                 clipped_line_3D_1, clipped_line_3D_2 = liang_barsky_clip_3d(x1, y1, z1, x2, y2, z2, xmin, xmax, ymin, ymax, zmin, zmax)
                 clipped_line_2D_1, clipped_line_2D_2 = to_2d(clipped_line_3D_1), to_2d(clipped_line_3D_2)
-                pygame.draw.line(screen, colour2, clipped_line_2D_1, clipped_line_2D_2)
+                pygame.draw.line(screen, color2, clipped_line_2D_1, clipped_line_2D_2)
 
-    text = font_object.render(display_text[method_type], False, text_colour)
+    text = font_object.render(display_text[method_type], False, text_color)
     screen.blit(text, (5, 20))
     pygame.display.update()

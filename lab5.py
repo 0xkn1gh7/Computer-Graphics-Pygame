@@ -3,13 +3,13 @@ import numpy as np
 
 pygame.init()
 
-text_colour = (186, 156, 243)
-white = (225, 227, 228)
-colour = (234, 203, 100)
-colour2 = (114, 204, 232)
-bg_colour = (42, 47, 56)
+text_color = (184, 187, 38)
+white = (235, 219, 178)
+color = (204, 36, 20)
+color2 = (69, 133, 136)
+bg_color = (40, 40, 40)
 
-font_object = pygame.font.SysFont("Iosevka Nerd Font", 30)
+font_object = pygame.font.SysFont("Iosevka Nerd Font", 40, bold=True)
 display_text = ["", "Cohen-Sutherland", "Cyrus-Beck", "Liang-Barsky", "Polygon Clipping"]
 
 # square boundary conditions
@@ -19,12 +19,12 @@ y_max, y_min = 500, 100
 # Vertices of polygon boundary
 vertices = [[100, 200], [500, 100], [560, 310], [340, 400], [130, 310]]
 
-text = font_object.render(display_text[0], False, text_colour)
+text = font_object.render(display_text[0], False, text_color)
 
 screen = pygame.display.set_mode((800, 600))
 
 def reset_screen() :
-    screen.fill(bg_colour)
+    screen.fill(bg_color)
 
 def draw_square_window():
     pygame.draw.line(screen, white, [x_max, y_max], [x_min, y_max])
@@ -69,14 +69,14 @@ def cohen_sutherland(x1, y1, x2, y2):
         x1, y1 = 500, 50
         x2, y2 = 130, 400
 
-    pygame.draw.line(screen, colour, [x1, y1], [x2, y2])
+    pygame.draw.line(screen, color, [x1, y1], [x2, y2])
 
     pos1 = calc_position(x1, y1)
     pos2 = calc_position(x2, y2)
     
     
     if (pos1 | pos2) == 0:
-        pygame.draw.line(screen, colour2, [x1, y1], [x2, y2])
+        pygame.draw.line(screen, color2, [x1, y1], [x2, y2])
         return
     elif (pos1 & pos2):
         return
@@ -89,7 +89,7 @@ def cohen_sutherland(x1, y1, x2, y2):
     if pos2 != 0:
         x2, y2 = intersection(slope, x2, y2, pos2)
 
-    pygame.draw.line(screen, colour2, [x1, y1], [x2, y2])
+    pygame.draw.line(screen, color2, [x1, y1], [x2, y2])
 
 def dot(p0, p1):
     return p0[0] * p1[0] + p0[1] * p1[1]
@@ -99,7 +99,7 @@ def cyrus_beck(x1, y1, x2, y2):
     if x1 == -1:
         x1, y1 = 150, 400
         x2, y2 = 600, 320
-    pygame.draw.line(screen, colour, [x1, y1], [x2, y2])
+    pygame.draw.line(screen, color, [x1, y1], [x2, y2])
 
     n = len(vertices)
     P1_P0 = (x2 - x1, y2 - y1)
@@ -119,13 +119,13 @@ def cyrus_beck(x1, y1, x2, y2):
     y1_clip = round(y1 + P1_P0[1] * temp[0])
     x2_clip = round(x1 + P1_P0[0] * temp[1])
     y2_clip = round(y1 + P1_P0[1] * temp[1])
-    pygame.draw.line(screen, colour2, [x1_clip, y1_clip], [x2_clip, y2_clip])
+    pygame.draw.line(screen, color2, [x1_clip, y1_clip], [x2_clip, y2_clip])
 
 def liang_barsky(x1, y1, x2, y2):
     if x1 == -1:
         x1, y1 = 680, 300
         x2, y2 = 180, 260
-    pygame.draw.line(screen, colour, [x1, y1], [x2, y2])
+    pygame.draw.line(screen, color, [x1, y1], [x2, y2])
 
     dx = x2 - x1
     dy = y2 - y1
@@ -156,7 +156,7 @@ def liang_barsky(x1, y1, x2, y2):
     x2_clip = round(x1 + t_exit * dx)
     y2_clip = round(y1 + t_exit * dy)
 
-    pygame.draw.line(screen, colour2, [x1_clip, y1_clip], [x2_clip, y2_clip])
+    pygame.draw.line(screen, color2, [x1_clip, y1_clip], [x2_clip, y2_clip])
 
 def x_intersect(x1, y1, x2, y2, x3, y3, x4, y4):
     num = (x1*y2 - y1*x2) * (x3-x4) - (x1-x2) * (x3*y4 - y3*x4)
@@ -208,7 +208,7 @@ def suth_hodg():
     poly_points = np.array([[100, 250], [650, 460], [400, 80]])
     clipper_size = 4
     clipper_points = np.array([[x_min, y_min], [x_min, y_max], [x_max, y_max], [x_max, y_min]])
-    pygame.draw.polygon(screen, colour, poly_points, 1)
+    pygame.draw.polygon(screen, color, poly_points, 1)
     pygame.draw.polygon(screen, white, clipper_points, 1)
     for i in range(clipper_size):
         k = (i+1) % clipper_size
@@ -217,7 +217,7 @@ def suth_hodg():
                                       clipper_points[i][1], clipper_points[k][0],
                                       clipper_points[k][1])
         
-    pygame.draw.polygon(screen, colour2, poly_points)
+    pygame.draw.polygon(screen, color2, poly_points)
 
 
 method_type = 0
@@ -255,6 +255,6 @@ while running:
                 reset_screen()
                 suth_hodg()
 
-    text = font_object.render(display_text[method_type], False, text_colour)
+    text = font_object.render(display_text[method_type], False, text_color)
     screen.blit(text, (5, 20))
     pygame.display.update()
